@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>chatterbox</title>
+    <link rel="stylesheet" href="styles/styles.css">
+
+    <!-- dependencies -->
+    <script src="bower_components/jquery/jquery.min.js"></script>
+    <script src="bower_components/underscore/underscore.js"></script>
+    <!-- your scripts -->
+    <script src="env/config.js"></script>
+    <script src="scripts/app.js"></script>
+  </head>
+  <body>
+    <div id="main">
+      <h1>chatterbox</h1>
+      <form>
+      <table>
+      <tr>
+
+      <td>Name: <input type="text" id="userName"></td>
+      </tr>
+      <tr>
+      <td>Room: <input type="text"></td>
+
+      </tr>
+      <tr>
+      <td>
+      Message: <input type="text" id="messageField">
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <input type="submit" class = "submit" id="send" value ="Submit">
+      </td>
+      </tr>
+
+      </table>
+      <!-- <div id="main" display = "hide"> </div> -->
+      <button type="button" class = 'refresh'>Refresh!</button>
+      <!-- Your HTML goes here! -->
+    </div>
+  </body>
+</html>
