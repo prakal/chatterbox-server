@@ -1,17 +1,3 @@
-/*************************************************************
-
-You should implement your request handler function in this file.
-
-requestHandler is already getting passed to http.createServer()
-in basic-server.js, but it won't work as is.
-
-You'll have to figure out a way to export this function from
-this file and include it in basic-server.js so that it actually works.
-
-*Hint* Check out the node module documentation at http://nodejs.org/api/modules.html.
-
-**************************************************************/
-
 var requestHandler = function(request, response) {
   // Request and Response come from node's http module.
   //
@@ -28,17 +14,21 @@ var requestHandler = function(request, response) {
   // debugging help, but you should always be careful about leaving stray
   // console.logs in your code.
   console.log("Serving request type " + request.method + " for url " + request.url);
+  var headers = defaultCorsHeaders;
 
   // The outgoing status.
-  if(request.method === "POST"){
-    var statusCode = 201;
+  console.log('request method', request.method);
+  if (request.method === "OPTIONS"){
+    response.writeHead(200, headers);
+    response.end();
   }
-  else{
+  // } else if(request.method === "GET"){
     var statusCode = 200;
-  }
+  // } else if(request.method === "POST"){
+  //   var statusCode = 201;
+  // }
 
   // See the note below about CORS headers.
-  var headers = defaultCorsHeaders;
 
   // Tell the client we are sending them plain text.
   //
@@ -48,8 +38,16 @@ var requestHandler = function(request, response) {
 
   // .writeHead() writes to the request line and headers of the response,
   // which includes the status and all headers.
+
   response.writeHead(statusCode, headers);
 
+  var responseData = {results:[]};
+
+  request.on('data', function(chunk) {
+    console.log("Received body data:");
+    responseData.results.push(chunk);
+  });
+  console.log('response Object', responseData);
   // Make sure to always call response.end() - Node may not send
   // anything back to the client until you do. The string you pass to
   // response.end() will be the body of the response - i.e. what shows
@@ -57,8 +55,10 @@ var requestHandler = function(request, response) {
   //
   // Calling .end "flushes" the response's internal buffer, forcing
   // node to actually send all the data over to the client.
-  // response.end("Hello, World!");
-  response.end(JSON.stringify({"results":[""]}));
+  // console.log('result object',resultObject.client);
+  console.log('-------------------------------------------------------------------------');
+  response.end(JSON.stringify(responseData));
+  // response.end();
 };
 
 // These headers will allow Cross-Origin Resource Sharing (CORS).
@@ -68,13 +68,14 @@ var requestHandler = function(request, response) {
 // Your chat client is running from a url like file://your/chat/client/index.html,
 // which is considered a different domain.
 //
-// Another way to get around this restriction is to serve you chat
+// Another way to get around this restriction is to serve your chat
 // client from this domain by setting up static file serving.
 var defaultCorsHeaders = {
   "access-control-allow-origin": "*",
   "access-control-allow-methods": "GET, POST, PUT, DELETE, OPTIONS",
-  "access-control-allow-headers": "content-type, accept",
-  "access-control-max-age": 10 // Seconds.
+  // "access-control-allow-headers": "content-type, accept",
+  "access-control-max-age": 10,
+  "access-control-allow-headers" : "Origin, X-Requested-With, X-Parse-Application-Id, X-Parse-REST-API-Key, Content-Type, Accept"
 };
 
 exports.requestHandler = requestHandler;

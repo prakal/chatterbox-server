@@ -8,7 +8,7 @@ app.server = 'http://127.0.0.1:3000';
 app.send = function(message){
   $.ajax({
     // always use this url
-    url: 'http://127.0.0.1/classes/chatterbox',
+    url: 'http://127.0.0.1:3000/classes/chatterbox',
     type: 'POST',
     data: JSON.stringify(message),
     contentType: 'application/json',
@@ -26,7 +26,7 @@ app.fetch = function(){
   //variables of stuff fetched
   $.ajax({
     // always use this url
-    url: 'http://127.0.0.1/classes/chatterbox',
+    url: 'http://127.0.0.1:3000/classes/chatterbox',
     type: 'GET',
     data:{order: "-updatedAt", limit: 100 },
     success: function (data) {
@@ -112,7 +112,6 @@ $( document ).ready(function() {
       event.preventDefault();
       app.handleSubmit();
     });
-    console.log('gets here');
     app.fetch();
 });
 
